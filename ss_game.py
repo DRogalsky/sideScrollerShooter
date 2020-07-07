@@ -1,6 +1,7 @@
 import sys,pygame
 
 from settings import Settings
+from ship import Ship
 
 class SideScroller:
     """Overall class to manage the game assets and behavior"""
@@ -13,6 +14,8 @@ class SideScroller:
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
 
         pygame.display.set_caption("Side Scroller")
+
+        self.ship = Ship(self)
 
         #Background color
         self.bg_color = self.settings.bg_color
@@ -27,6 +30,7 @@ class SideScroller:
             
             # Redraw the screen during each pass of the loop
             self.screen.fill(self.bg_color)
+            self.ship.blitme()
 
             # Make the most recently drawn screen visible
             pygame.display.flip()
