@@ -26,9 +26,9 @@ class Ship:
     def update(self):
         """Update the ship's position based on the movement flag"""
         # update the saved vert position
-        if self.moving_up:
+        if self.moving_up and self.rect.top > self.screen_rect.top:
             self.y -= 1
-        elif self.moving_down:
+        elif self.moving_down and self.rect.bottom < self.screen_rect.bottom:
             self.y += 1
 
         # update the rect
