@@ -3,6 +3,7 @@ import sys,pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 class SideScroller:
     """Overall class to manage the game assets and behavior"""
@@ -20,6 +21,7 @@ class SideScroller:
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
 
         #Background color
         self.bg_color = self.settings.bg_color
@@ -31,6 +33,9 @@ class SideScroller:
             self.ship.update()
             self._update_bullet()
             self._update_screen()
+            self._spawn_enemy()
+
+    #event handlers
 
     def _check_events(self):
         #Watch for keyboard events in game
@@ -66,10 +71,18 @@ class SideScroller:
             #move ship down
             self.ship.moving_down = False
 
+    #helper functions
+
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group"""
         new_bullet = Bullet(self)
         self.bullets.add(new_bullet)
+
+    def _spawn_enemy(self):
+        """Spawns enemies randomly from the right side of the screen"""
+        #TODO: create alien just offsreen moving left at a random y
+
+    # update functions
 
     def _update_bullet(self):
         """Update position of bullets and get rid of old bullets"""
