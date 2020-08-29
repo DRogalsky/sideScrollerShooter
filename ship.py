@@ -27,9 +27,9 @@ class Ship:
         """Update the ship's position based on the movement flag"""
         # update the saved vert position
         if self.moving_up and self.rect.top > self.screen_rect.top:
-            self.y -= 1
+            self.y -= self.settings.ship_speed
         elif self.moving_down and self.rect.bottom < self.screen_rect.bottom:
-            self.y += 1
+            self.y += self.settings.ship_speed
 
         # update the rect
         self.rect.y = self.y

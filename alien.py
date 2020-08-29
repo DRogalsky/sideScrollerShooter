@@ -9,6 +9,7 @@ class Alien(Sprite):
 
         super().__init__()
         self.screen = ss_game.screen
+        self.settings = ss_game.settings
 
         # loading alien image and set the rect attribute
 

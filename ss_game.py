@@ -81,6 +81,8 @@ class SideScroller:
     def _spawn_enemy(self):
         """Spawns enemies randomly from the right side of the screen"""
         #TODO: create alien just offsreen moving left at a random y
+        alien = Alien(self)
+        self.aliens.add(alien)
 
     # update functions
 
@@ -102,6 +104,7 @@ class SideScroller:
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        self.aliens.draw(self.screen)
 
         # Make the most recently drawn screen visible
         pygame.display.flip()
