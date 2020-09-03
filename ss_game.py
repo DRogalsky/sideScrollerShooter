@@ -23,6 +23,9 @@ class SideScroller:
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
 
+        # counter for time based stuff TODO: see if there is a better way to do this
+        self.counter = 0
+
         #Background color
         self.bg_color = self.settings.bg_color
 
@@ -33,7 +36,7 @@ class SideScroller:
             self.ship.update()
             self._update_bullet()
             self._update_screen()
-            self._spawn_enemy()
+            self._update_aliens()
 
     #event handlers
 
@@ -82,6 +85,8 @@ class SideScroller:
         """Spawns enemies randomly from the right side of the screen"""
         #TODO: create alien just offsreen moving left at a random y
         alien = Alien(self)
+        alien_width = alien.rect.width
+        alien.x = self.screen_width
         self.aliens.add(alien)
 
     # update functions
@@ -96,6 +101,26 @@ class SideScroller:
         for bullet in self.bullets.copy():
             if bullet.rect.left >= self.screen_width:
                 self.bullets.remove(bullet)
+
+    def _update_aliens(self):
+        """make the aliens move slowly to the left"""
+
+        #update position of aliens
+        self.aliens.update()
+
+        #increase counter
+        self.counter += 1
+
+        #delete offscreen aliens
+        for alien in self.aliens.copy():
+            if alien.rect.right < 0:
+                self.aliens.remove(alien)
+
+        #spawn new enemies if counter is 10
+        if self.counter == 500:
+            self._spawn_enemy()
+            self.counter = 0
+
 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""

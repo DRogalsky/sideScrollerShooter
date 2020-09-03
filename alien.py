@@ -1,5 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
+from random import randrange
 
 class Alien(Sprite):
     """A class to represent a single alien in the fleet"""
@@ -18,11 +19,16 @@ class Alien(Sprite):
 
         # Start each new alien near the top left of the screen
 
-        self.rect.x = self.rect.width
-        self.rect.y = self.rect.height
+        self.rect.x = ss_game.screen_width
+        self.rect.y = randrange(ss_game.screen_height)
 
         # store the exact x and y position
-        #TODO: check if needed later
 
         self.x = float(self.rect.x)
-        self.y = float(self.rect.y)
+
+    def update(self):
+        #move to the left
+        self.x -= self.settings.alien_speed
+
+        #update the rect
+        self.rect.x = self.x
