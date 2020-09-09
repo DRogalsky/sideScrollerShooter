@@ -26,6 +26,9 @@ class SideScroller:
         # counter for time based stuff TODO: see if there is a better way to do this
         self.counter = 0
 
+        # flag to control amount of bullets you can fire
+        self.recently_fired = False
+
         #Background color
         self.bg_color = self.settings.bg_color
 
@@ -37,6 +40,8 @@ class SideScroller:
             self._update_bullet()
             self._update_screen()
             self._update_aliens()
+            if self.counter % 100 == 0:
+                self.recently_fired = False
 
     #event handlers
 
@@ -62,8 +67,9 @@ class SideScroller:
             #move ship down
             self.ship.moving_down = True
         elif event.key == pygame.K_SPACE:
-            #shoot a bullet
-            self._fire_bullet()
+            #shoot a bullet if not recently fired
+            if self.recently_fired == False:
+                self._fire_bullet()
 
     def _check_keyup_events(self, event):
         #Check when the player releases a key
@@ -78,12 +84,12 @@ class SideScroller:
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group"""
+        self.recently_fired = True
         new_bullet = Bullet(self)
         self.bullets.add(new_bullet)
 
     def _spawn_enemy(self):
         """Spawns enemies randomly from the right side of the screen"""
-        #TODO: create alien just offsreen moving left at a random y
         alien = Alien(self)
         alien_width = alien.rect.width
         alien.x = self.screen_width
@@ -101,6 +107,12 @@ class SideScroller:
         for bullet in self.bullets.copy():
             if bullet.rect.left >= self.screen_width:
                 self.bullets.remove(bullet)
+
+        # see if it hit an alien
+        # get rid of both if so
+        collisions = pygame.sprite.groupcollide(
+            self.bullets, self.aliens, True, True
+        )
 
     def _update_aliens(self):
         """make the aliens move slowly to the left"""

@@ -20,7 +20,7 @@ class Alien(Sprite):
         # Start each new alien near the top left of the screen
 
         self.rect.x = ss_game.screen_width
-        self.rect.y = randrange(ss_game.screen_height)
+        self.rect.y = randrange(ss_game.screen_height - 50)
 
         # store the exact x and y position
 
