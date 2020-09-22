@@ -1,6 +1,8 @@
 import sys,pygame
+from time import sleep
 
 from settings import Settings
+from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -18,6 +20,9 @@ class SideScroller:
         self.screen_width, self.screen_height = pygame.display.get_surface().get_size()
 
         pygame.display.set_caption("Side Scroller")
+
+        #create instance to store game stats
+        self.stats = GameStats(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -132,6 +137,9 @@ class SideScroller:
         if self.counter == 500:
             self._spawn_enemy()
             self.counter = 0
+
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print("test")
 
 
     def _update_screen(self):
