@@ -85,7 +85,7 @@ class SideScroller:
             #move ship down
             self.ship.moving_down = False
 
-    #helper functions
+    #misc helper functions
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group"""
@@ -99,6 +99,22 @@ class SideScroller:
         alien_width = alien.rect.width
         alien.x = self.screen_width
         self.aliens.add(alien)
+
+    def _ship_hit(self):
+        """respond to ship being hit by alien"""
+
+        #Decrement ships
+        self.stats.ships_left -= 1
+
+        #Get rid of remaining aliens and bullets
+        self.aliens.empty()
+        self.bullets.empty()
+
+        # Recenter the ship
+        self.ship.center_ship
+
+        # pause
+        sleep(0.5)
 
     # update functions
 
@@ -139,7 +155,7 @@ class SideScroller:
             self.counter = 0
 
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
-            print("test")
+            self._ship_hit()
 
 
     def _update_screen(self):
