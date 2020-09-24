@@ -41,12 +41,14 @@ class SideScroller:
         """Start the main loop for the game."""
         while True:
             self._check_events()
-            self.ship.update()
-            self._update_bullet()
-            self._update_screen()
-            self._update_aliens()
-            if self.counter % 100 == 0:
-                self.recently_fired = False
+
+            if self.state.game_active:
+                self.ship.update()
+                self._update_bullet()
+                self._update_screen()
+                self._update_aliens()
+                if self.counter % 100 == 0:
+                    self.recently_fired = False
 
     #event handlers
 
@@ -103,18 +105,21 @@ class SideScroller:
     def _ship_hit(self):
         """respond to ship being hit by alien"""
 
-        #Decrement ships
-        self.stats.ships_left -= 1
+        if self.stats.ships_left > 0:
+            #Decrement ships
+            self.stats.ships_left -= 1
 
-        #Get rid of remaining aliens and bullets
-        self.aliens.empty()
-        self.bullets.empty()
+            #Get rid of remaining aliens and bullets
+            self.aliens.empty()
+            self.bullets.empty()
 
-        # Recenter the ship
-        self.ship.center_ship
+            # Recenter the ship
+            self.ship.center_ship
 
-        # pause
-        sleep(0.5)
+            # pause
+            sleep(0.5)
+        else:
+            self.stats.game_active = False
 
     # update functions
 
