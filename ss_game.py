@@ -32,9 +32,6 @@ class SideScroller:
         # counter for time based stuff TODO: see if there is a better way to do this
         self.counter = 0
 
-        # flag to control amount of bullets you can fire
-        self.recently_fired = False
-
         #Background color
         self.bg_color = self.settings.bg_color
 
@@ -50,8 +47,6 @@ class SideScroller:
                 self.ship.update()
                 self._update_bullet()
                 self._update_aliens()
-                if self.counter % 100 == 0:
-                    self.recently_fired = False
             
             self._update_screen()
 
@@ -83,7 +78,7 @@ class SideScroller:
             self.ship.moving_down = True
         elif event.key == pygame.K_SPACE:
             #shoot a bullet if not recently fired
-            if self.recently_fired == False:
+            if len(self.bullets) < self.settings.bullet_limit:
                 self._fire_bullet()
 
     def _check_keyup_events(self, event):
@@ -99,13 +94,22 @@ class SideScroller:
         """Start a new game when the player clicks play."""
 
         if self.play_button.rect.collidepoint(mouse_pos):
+
+            # reset the game stats
+            self.stats.reset_stats()
             self.stats.game_active = True
+
+            # get rid of any remaining aliens and bullets.
+            self.aliens.empty()
+            self.bullets.empty()
+
+            # recenter player
+            self.ship.center_ship()
 
     #misc helper functions
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group"""
-        self.recently_fired = True
         new_bullet = Bullet(self)
         self.bullets.add(new_bullet)
 
