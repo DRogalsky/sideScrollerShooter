@@ -93,7 +93,8 @@ class SideScroller:
     def _check_play_button(self, mouse_pos):
         """Start a new game when the player clicks play."""
 
-        if self.play_button.rect.collidepoint(mouse_pos):
+        # If the player clicks the play button AND the game isn't going
+        if self.play_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
 
             # reset the game stats
             self.stats.reset_stats()
@@ -105,6 +106,9 @@ class SideScroller:
 
             # recenter player
             self.ship.center_ship()
+
+            # hide the mouse cursor
+            pygame.mouse.set_visible(False)
 
     #misc helper functions
 
@@ -138,6 +142,7 @@ class SideScroller:
             sleep(0.5)
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
 
     # update functions
 
