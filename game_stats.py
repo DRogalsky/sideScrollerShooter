@@ -8,7 +8,14 @@ class GameStats:
         
         #set game in an active state
         self.game_active = False
+        
 
     def reset_stats(self):
         """initialize statistics that can change during the game"""
         self.ships_left = self.settings.ship_limit
+
+        #set aliens shot counter
+        self.aliens_shot = 0
+
+        #set score to 0
+        self.score = 0

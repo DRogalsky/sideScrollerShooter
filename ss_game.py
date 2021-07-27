@@ -96,8 +96,9 @@ class SideScroller:
         # If the player clicks the play button AND the game isn't going
         if self.play_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
 
-            # reset the game stats
+            # reset the game stats and dynamic settings
             self.stats.reset_stats()
+            self.settings.initialize_dynamic_settings()
             self.stats.game_active = True
 
             # get rid of any remaining aliens and bullets.
@@ -144,6 +145,24 @@ class SideScroller:
             self.stats.game_active = False
             pygame.mouse.set_visible(True)
 
+    def _check_bullet_collisions(self):
+        """See if bullets hit something and increase score/kill counters"""
+        #remove bullets and aliens that have collided
+        collisions = pygame.sprite.groupcollide(
+            self.bullets, self.aliens, True, True)
+
+        if collisions:
+            for aliens in collisions.values():
+                #up the alien shot counter
+                self.stats.aliens_shot += len(aliens)
+            
+            if self.stats.aliens_shot >= 10:
+                self.stats.aliens_shot -= 10
+                self.settings.increase_speed()
+                print(self.stats.aliens_shot)
+
+        
+
     # update functions
 
     def _update_bullet(self):
@@ -158,10 +177,7 @@ class SideScroller:
                 self.bullets.remove(bullet)
 
         # see if it hit an alien
-        # get rid of both if so
-        collisions = pygame.sprite.groupcollide(
-            self.bullets, self.aliens, True, True
-        )
+        self._check_bullet_collisions()
 
     def _update_aliens(self):
         """make the aliens move slowly to the left"""
