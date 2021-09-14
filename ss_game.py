@@ -3,6 +3,7 @@ from time import sleep
 
 from settings import Settings
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from button import Button
 from ship import Ship
 from bullet import Bullet
@@ -22,8 +23,9 @@ class SideScroller:
 
         pygame.display.set_caption("Side Scroller")
 
-        #create instance to store game stats
+        #create instance to store game stats and scoreboard
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -212,6 +214,9 @@ class SideScroller:
         self.aliens.draw(self.screen)
         if not self.stats.game_active:
             self.play_button.draw_button()
+
+        #Draw the scoreboard
+        self.sb.show_score()
 
         # Make the most recently drawn screen visible
         pygame.display.flip()
