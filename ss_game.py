@@ -102,6 +102,7 @@ class SideScroller:
             self.stats.reset_stats()
             self.settings.initialize_dynamic_settings()
             self.stats.game_active = True
+            self.sb.prep_score()
 
             # get rid of any remaining aliens and bullets.
             self.aliens.empty()
@@ -154,14 +155,16 @@ class SideScroller:
             self.bullets, self.aliens, True, True)
 
         if collisions:
+
             for aliens in collisions.values():
                 #up the alien shot counter
                 self.stats.aliens_shot += len(aliens)
+                self.stats.score += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
             
             if self.stats.aliens_shot >= 10:
                 self.stats.aliens_shot -= 10
                 self.settings.increase_speed()
-                print(self.stats.aliens_shot)
 
         
 

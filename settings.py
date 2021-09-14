@@ -22,8 +22,12 @@ class Settings:
         # Alien settings
         self.alien_speed = 0.75
 
-        # Speed increase per 10 enemies shot
+        # Speed and score increase per 10 enemies shot
         self.speedup_scale = 1.3
+        self.score_scale = 1.5
+
+        #Scoring
+        self.alien_points = 50
 
         self.initialize_dynamic_settings()
 
@@ -36,7 +40,9 @@ class Settings:
         self.alien_speed = 0.75
 
     def increase_speed(self):
-        """increases the speed of all sprites"""
+        """increases the speed of all sprites and point values"""
         self.ship_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale
         self.alien_speed *= self.speedup_scale
+        self.alien_points = int(self.alien_points * self.score_scale)
+        #TODO: maybe change scoring a bit feels a bit high
