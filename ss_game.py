@@ -161,6 +161,7 @@ class SideScroller:
                 self.stats.aliens_shot += len(aliens)
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
+            self.sb.check_high_score()
             
             if self.stats.aliens_shot >= 10:
                 self.stats.aliens_shot -= 10
