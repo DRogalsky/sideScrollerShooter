@@ -134,6 +134,7 @@ class SideScroller:
         if self.stats.ships_left > 0:
             #Decrement ships
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
 
             #Get rid of remaining aliens and bullets
             self.aliens.empty()
@@ -162,6 +163,7 @@ class SideScroller:
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
             self.sb.check_high_score()
+            self.sb.prep_ships()
             
             if self.stats.aliens_shot >= 10:
                 self.stats.aliens_shot -= 10
