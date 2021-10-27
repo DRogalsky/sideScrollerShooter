@@ -28,7 +28,7 @@ class Ship(Sprite):
     def update(self):
         """Update the ship's position based on the movement flag"""
         # update the saved vert position
-        if self.moving_up and self.rect.top > self.screen_rect.top:
+        if self.moving_up and self.rect.top > self.screen_rect.top + 75:
             self.y -= self.settings.ship_speed
         elif self.moving_down and self.rect.bottom < self.screen_rect.bottom:
             self.y += self.settings.ship_speed
